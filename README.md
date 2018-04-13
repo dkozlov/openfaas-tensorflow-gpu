@@ -30,7 +30,7 @@ ansible_python_interpreter=/usr/bin/python3
 [gpus]
 ec2-12-345-67-890.your-region.compute.amazonaws.com #Add previously created GPU hostname 
 ```
-### Perform initial configuration by ansible, install Dokcer-CE, CUDA, CUDNN, NVIDIA-DOCKER
+### Perform initial configuration by Ansible, install Docker-CE, CUDA, CUDNN, NVIDIA-Docker
 ```
 ansible-playbook gpus.yml
 ```
