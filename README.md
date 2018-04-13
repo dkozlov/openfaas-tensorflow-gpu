@@ -1,32 +1,39 @@
 # OpenFaas Kubernetes TensorFlow GPU
+### Prerequisites:
+python3
+```
+sudo apt-get install python3-pip --upgrade
+pip3 install ansible
+```
 ### Create p2.xlarge AWS EC2 instance with GPU support, with default Ubuntu 16.04 AMI
 Request AWS EC2 P2 instances limits from [AWS support](https://console.aws.amazon.com/support/) 
 
-### Prerequisites:
-python3
-pip3 install ansible
-
 ### Configure newly created Ubuntu 16.04
+```
 git clone https://github.com/dkozlov/ansible-nvidia
 cd ansible-nvidia
-
+```
 ### Download private key to ~/.ssh
+```
 cp my_aws_ec2_private_key.pem ~/.ssh
 chmod 400  ~/.ssh/my_aws_ec2_private_key.pem
-
+```
 ### Edit ./ansible.cfg, uncomment prvate_key_file, set correct private_key_file for previously created AWS EC2 instance 
 private_key_file = ~/.ssh/my_aws_ec2_private_key.pem
 
 ### Create hosts files:
+```
+$ cat hosts 
 [gpus:vars]
 ansible_python_interpreter=/usr/bin/python3
 
 [gpus]
 ec2-12-345-67-890.your-region.compute.amazonaws.com #Add previously created GPU hostname 
-
+```
 ### Perform initial configuration by ansible, install Dokcer-CE, CUDA, CUDNN, NVIDIA-DOCKER
+```
 ansible-playbook gpus.yml
-
+```
 ### Check nvidia-smi and docker-ce
 ```
 ansible gpus -m command -a 'bash -lc "nvidia-smi"'
@@ -54,6 +61,7 @@ ansible gpus -m command -a 'bash -lc "docker --version"'
 Docker version 18.03.0-ce, build 0520e24
 ```
 ### Install Kubernetes
+```
 #ansible gpus -m command -a 'sudo bash -lc "apt-get update && sudo apt-get install -qy docker.io"'
 
 ansible gpus -m command -a 'sudo bash -lc "sudo apt-get update && sudo apt-get install -y apt-transport-https && curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -"'
@@ -66,9 +74,12 @@ ansible gpus -m command -a 'sudo bash -lc "mkdir -p $HOME/.kube; cp -i /etc/kube
 ansible gpus -m command -a 'sudo bash -lc "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"'
 ansible gpus -m command -a 'sudo bash -lc "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/k8s-manifests/kube-flannel-rbac.yml"'
 ansible gpus -m command -a 'sudo bash -lc "kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml"'
+```
 
-# allow deployment on gpus node
+### Allow deployment on Kubernetes master node
+```
 ansible gpus -m command -a 'sudo bash -lc "kubectl taint nodes --all node-role.kubernetes.io/master-"'
+```
 
 ### Install OpenFaas
 ```
@@ -95,6 +106,7 @@ rolebinding.rbac.authorization.k8s.io "faas-controller-fn" created
 ```
 
 ### Check OpenFaas services
+```
 ansible gpus -m command -a 'sudo bash -lc "kubectl get services -n openfaas"'
 NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
 alertmanager   ClusterIP   10.100.190.249   <none>        9093/TCP         2m
@@ -102,10 +114,15 @@ faas-netesd    ClusterIP   10.96.61.62      <none>        8080/TCP         2m
 gateway        NodePort    10.110.73.148    <none>        8080:31112/TCP   2m
 nats           ClusterIP   10.107.19.118    <none>        4222/TCP         2m
 prometheus     NodePort    10.110.134.99    <none>        9090:31119/TCP   2m
-
-### 
-ansible gpus -m command -a 'sudo bash -lc "git clone https://github.com/openfaas-incubator/python-flask-template"'
+```
 
 ### Install faas-cli
+```
 ansible gpus -m command -a 'sudo bash -lc "curl -sSL https://cli.openfaas.com | sh"'
+```
+
+### Install HTTP of-watchdog
+```
+ansible gpus -m command -a 'sudo bash -lc "git clone https://github.com/openfaas-incubator/python-flask-template"'
+```
 
