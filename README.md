@@ -19,8 +19,9 @@ cp my_aws_ec2_private_key.pem ~/.ssh
 chmod 400  ~/.ssh/my_aws_ec2_private_key.pem
 ```
 ### Edit ./ansible.cfg, uncomment prvate_key_file, set correct private_key_file for previously created AWS EC2 instance 
+```
 private_key_file = ~/.ssh/my_aws_ec2_private_key.pem
-
+```
 ### Create hosts files:
 ```
 $ cat hosts 
