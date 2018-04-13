@@ -85,24 +85,6 @@ ansible gpus -m command -a 'sudo bash -lc "kubectl taint nodes --all node-role.k
 ```
 ansible gpus -m command -a 'sudo bash -lc "git clone https://github.com/openfaas/faas-netes"'
 ansible gpus -m command -a 'sudo bash -lc "cd faas-netes; kubectl apply -f ./namespaces.yml,./yaml"'
-namespace "openfaas" created
-namespace "openfaas-fn" created
-deployment.apps "alertmanager" created
-service "alertmanager" created
-configmap "alertmanager-config" created
-deployment.apps "faas-netesd" created
-service "faas-netesd" created
-deployment.apps "gateway" created
-service "gateway" created
-deployment.apps "nats" created
-service "nats" created
-deployment.apps "prometheus" created
-service "prometheus" created
-configmap "prometheus-config" created
-deployment.apps "queue-worker" created
-serviceaccount "faas-controller" created
-role.rbac.authorization.k8s.io "faas-controller" created
-rolebinding.rbac.authorization.k8s.io "faas-controller-fn" created
 ```
 
 ### Check OpenFaas services
