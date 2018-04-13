@@ -13,7 +13,7 @@ Request AWS EC2 P2 instances limits from [AWS support](https://console.aws.amazo
 git clone https://github.com/dkozlov/ansible-nvidia
 cd ansible-nvidia
 ```
-### Download private key to ~/.ssh
+### Download AWS EC2 private key to ~/.ssh
 ```
 cp my_aws_ec2_private_key.pem ~/.ssh
 chmod 400  ~/.ssh/my_aws_ec2_private_key.pem
