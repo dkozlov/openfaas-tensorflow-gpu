@@ -104,8 +104,12 @@ prometheus     NodePort    10.110.134.99    <none>        9090:31119/TCP   2m
 ansible gpus -m command -a 'sudo bash -lc "curl -sSL https://cli.openfaas.com | sh"'
 ```
 
-### Install HTTP of-watchdog
+### Deploy Object Detection function
 ```
-ansible gpus -m command -a 'sudo bash -lc "git clone https://github.com/openfaas-incubator/python-flask-template"'
+ansible gpus -m command -a 'sudo bash -lc "sudo faas deploy --gateway $OPENFAAS_HOSTNAME:31112"'
 ```
 
+### Invoke via curl
+```
+curl --request POST --url http://OPENFAAS_HOSTNAME:31112/function/objectdetection --data-binary @"/path/to/request_image.jpg" --output detection_result.jpg
+```
