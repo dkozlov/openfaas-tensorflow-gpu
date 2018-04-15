@@ -1,0 +1,6 @@
+flask
+Cython
+pillow
+lxml
+jupyter
+matplotlib

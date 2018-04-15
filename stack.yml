@@ -1,0 +1,10 @@
+provider:
+  name: faas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  objectdetection:
+    lang: python3-flask
+    handler: ./myfunction
+    image: dfkozlov/openfaas-tensorflow-gpu
+    imagePullPolicy: Always
