@@ -12,7 +12,11 @@ RUN pip install -r requirements.txt
 RUN apt update && apt install -y git \
     && apt install -y vim-nox \
     && apt install -y python3-tk \   
-    && apt install -y protobuf-compiler   
+    && curl -OL https://github.com/google/protobuf/releases/download/v3.5.1/protoc-3.5.1-linux-x86_64.zip \
+    && unzip protoc-3.5.1-linux-x86_64.zip -d protoc3 \
+    && mv protoc3/bin/* /usr/local/bin/ \
+    && mv protoc3/include/* /usr/local/include/
+    #&& apt install -y protobuf-compiler
 
 WORKDIR /root/
 RUN git clone https://github.com/tensorflow/models
