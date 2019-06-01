@@ -22,7 +22,7 @@ chmod 400  ~/.ssh/my_aws_ec2_private_key.pem
 ```
 private_key_file = ~/.ssh/my_aws_ec2_private_key.pem
 ```
-### Create hosts files:
+### Create [Ansible Host Inventory](https://ansible-tips-and-tricks.readthedocs.io/en/latest/ansible/inventory/):
 ```
 $ cat hosts 
 [gpus:vars]
